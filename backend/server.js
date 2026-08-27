@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const pool = require('./src/config/database');
-
 const productoRoutes = require('./src/routes/productoRoutes');
 
 const app = express();
@@ -12,13 +12,9 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-app.use('/api/productos', productoRoutes);
+app.use(express.static(path.join(__dirname, '../frontend')));
 
-app.get('/', (req, res) => {
-    res.json({
-        mensaje: 'Bienvenido a WarrantyHub'
-    });
-});
+app.use('/api/productos', productoRoutes);
 
 app.get('/api/test-db', async (req, res) => {
     try {
