@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WarrantyHub</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>WarrantyHub</h1>
+        <p>Sistema de gestión de garantías</p>
+    </header>
+<main class="contenedor">
+
+    <section class="formulario">
+
+        <h2 id="tituloFormulario">Registrar producto</h2>
+
+        <form id="formProducto">
+
+            <input
+                type="text"
+                id="nombre"
+                placeholder="Nombre del producto"
+                required
+            >
+
+            <input
+                type="text"
+                id="marca"
+                placeholder="Marca"
+                required
+            >
+
+            <input
+                type="text"
+                id="modelo"
+                placeholder="Modelo"
+                required
+            >
+
+            <input
+                type="text"
+                id="numeroSerie"
+                placeholder="Número de serie"
+                required
+            >
+
+            <label for="fechaCompra">
+                Fecha de compra
+            </label>
+
+            <input
+                type="date"
+                id="fechaCompra"
+                required
+            >
+
+            <label for="fechaFinGarantia">
+                Fecha fin de garantía
+            </label>
+
+            <input
+                type="date"
+                id="fechaFinGarantia"
+                required
+            >
+
+            <button
+                type="submit"
+                id="botonFormulario"
+            >
+                Guardar producto
+            </button>
+
+            <button
+                type="button"
+                id="botonCancelar"
+                class="boton-cancelar"
+                style="display: none;"
+            >
+                Cancelar edición
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <hr>
+
+
+   <section>
+
+    <h2>Productos registrados</h2>
+
+    <p id="totalProductos">
+        Total de productos: 0
+    </p>
+
+    <div id="productos">
+        Cargando productos...
+    </div>
+
+</section>
+
+</main>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
