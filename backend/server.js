@@ -4,6 +4,8 @@ const path = require('path');
 
 const pool = require('./src/config/database');
 const productoRoutes = require('./src/routes/productoRoutes');
+const comprobanteRoutes = require('./src/routes/comprobanteRoutes');
+const ticketRoutes = require('./src/routes/ticketRoutes');
 
 const app = express();
 
@@ -15,6 +17,8 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.use('/api/productos', productoRoutes);
+app.use('/api/comprobantes', comprobanteRoutes);
+app.use('/api/tickets', ticketRoutes);
 
 app.get('/api/test-db', async (req, res) => {
     try {

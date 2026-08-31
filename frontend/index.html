@@ -14,103 +14,268 @@
 
     <header>
         <h1>WarrantyHub</h1>
-        <p>Sistema de gestión de garantías</p>
+        <p>Sistema de gestión de garantías y reclamos</p>
     </header>
-<main class="contenedor">
 
-    <section class="formulario">
 
-        <h2 id="tituloFormulario">Registrar producto</h2>
+    <main class="contenedor">
 
-        <form id="formProducto">
+        <!-- ======================================== -->
+        <!-- PRODUCTOS -->
+        <!-- ======================================== -->
 
-            <input
-                type="text"
-                id="nombre"
-                placeholder="Nombre del producto"
-                required
-            >
+        <section class="formulario">
 
-            <input
-                type="text"
-                id="marca"
-                placeholder="Marca"
-                required
-            >
+            <h2 id="tituloFormulario">
+                Registrar producto
+            </h2>
 
-            <input
-                type="text"
-                id="modelo"
-                placeholder="Modelo"
-                required
-            >
+            <form id="formProducto">
 
-            <input
-                type="text"
-                id="numeroSerie"
-                placeholder="Número de serie"
-                required
-            >
+                <input
+                    type="text"
+                    id="nombre"
+                    placeholder="Nombre del producto"
+                    required
+                >
 
-            <label for="fechaCompra">
-                Fecha de compra
-            </label>
+                <input
+                    type="text"
+                    id="marca"
+                    placeholder="Marca"
+                    required
+                >
 
-            <input
-                type="date"
-                id="fechaCompra"
-                required
-            >
+                <input
+                    type="text"
+                    id="modelo"
+                    placeholder="Modelo"
+                    required
+                >
 
-            <label for="fechaFinGarantia">
-                Fecha fin de garantía
-            </label>
+                <input
+                    type="text"
+                    id="numeroSerie"
+                    placeholder="Número de serie"
+                    required
+                >
 
-            <input
-                type="date"
-                id="fechaFinGarantia"
-                required
-            >
+                <label for="fechaCompra">
+                    Fecha de compra
+                </label>
+
+                <input
+                    type="date"
+                    id="fechaCompra"
+                    required
+                >
+
+                <label for="fechaFinGarantia">
+                    Fecha fin de garantía
+                </label>
+
+                <input
+                    type="date"
+                    id="fechaFinGarantia"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    id="botonFormulario"
+                >
+                    Guardar producto
+                </button>
+
+                <button
+                    type="button"
+                    id="botonCancelar"
+                    class="boton-cancelar"
+                    style="display: none;"
+                >
+                    Cancelar edición
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <hr>
+
+
+        <!-- ======================================== -->
+        <!-- PRODUCTOS REGISTRADOS -->
+        <!-- ======================================== -->
+
+        <section>
+
+            <h2>
+                Productos registrados
+            </h2>
+
+            <p id="totalProductos">
+                Total de productos: 0
+            </p>
+
+            <div id="productos">
+                Cargando productos...
+            </div>
+
+        </section>
+
+
+        <hr>
+
+
+        <!-- ======================================== -->
+        <!-- COMPROBANTES -->
+        <!-- ======================================== -->
+
+        <section class="formulario">
+
+            <h2>
+                Comprobante de compra
+            </h2>
+
+            <form id="formComprobante">
+
+                <label for="productoComprobante">
+                    Seleccionar producto
+                </label>
+
+                <select
+                    id="productoComprobante"
+                    required
+                >
+                    <option value="">
+                        Seleccione un producto
+                    </option>
+                </select>
+
+
+                <input
+                    type="text"
+                    id="nombreArchivo"
+                    placeholder="Nombre del comprobante"
+                    required
+                >
+
+
+                <input
+                    type="text"
+                    id="rutaArchivo"
+                    placeholder="Ruta del comprobante"
+                    required
+                >
+
+
+                <button type="submit">
+                    Asociar comprobante
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <hr>
+
+
+        <!-- ======================================== -->
+        <!-- TICKETS -->
+        <!-- ======================================== -->
+
+        <section class="formulario">
+
+            <h2>
+                Crear ticket de reclamo
+            </h2>
+
+            <form id="formTicket">
+
+                <label for="productoTicket">
+                    Producto
+                </label>
+
+                <select
+                    id="productoTicket"
+                    required
+                >
+                    <option value="">
+                        Seleccione un producto
+                    </option>
+                </select>
+
+
+                <textarea
+                    id="descripcionTicket"
+                    placeholder="Descripción del problema"
+                    required
+                ></textarea>
+
+
+                <button type="submit">
+                    Crear ticket
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <hr>
+
+
+        <!-- ======================================== -->
+        <!-- TICKETS REGISTRADOS -->
+        <!-- ======================================== -->
+
+        <section>
+
+            <h2>
+                Tickets registrados
+            </h2>
+
+            <div id="tickets">
+                Cargando tickets...
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ======================================== -->
+    <!-- MODAL -->
+    <!-- ======================================== -->
+
+    <div
+        id="modal"
+        class="modal"
+    >
+
+        <div class="modal-contenido">
+
+            <h2 id="modalTitulo">
+                WarrantyHub
+            </h2>
+
+            <p id="modalMensaje">
+                Mensaje
+            </p>
 
             <button
-                type="submit"
-                id="botonFormulario"
-            >
-                Guardar producto
-            </button>
-
-            <button
+                id="modalBoton"
                 type="button"
-                id="botonCancelar"
-                class="boton-cancelar"
-                style="display: none;"
             >
-                Cancelar edición
+                Aceptar
             </button>
 
-        </form>
+        </div>
 
-    </section>
-
-
-    <hr>
-
-
-   <section>
-
-    <h2>Productos registrados</h2>
-
-    <p id="totalProductos">
-        Total de productos: 0
-    </p>
-
-    <div id="productos">
-        Cargando productos...
     </div>
 
-</section>
-
-</main>
 
     <script src="app.js"></script>
 
