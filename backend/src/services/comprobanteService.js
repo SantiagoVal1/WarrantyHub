@@ -1,17 +1,21 @@
-const pool = require('../config/database');
 
+const pool = require('../config/database');
 
 // Asociar comprobante a un producto
 const crearComprobante = async (
     productoId,
     nombreArchivo,
-    rutaArchivo
+    rutaArchivo,
+    usuarioId,
+    rol
 ) => {
-
-    // Verificar que el producto exista
+    // Verificar que el producto exista y pertenezca al usuario
     const producto = await pool.query(
-        'SELECT id FROM productos WHERE id = $1',
-        [productoId]
+        `SELECT id
+         FROM productos
+         WHERE id = $1
+         AND ($2 = 'administrador' OR usuario_id = $3)`,
+        [productoId, rol, usuarioId]
     );
 
     if (producto.rows.length === 0) {
@@ -23,32 +27,31 @@ const crearComprobante = async (
         (producto_id, nombre_archivo, ruta_archivo)
         VALUES ($1, $2, $3)
         RETURNING *`,
-        [
-            productoId,
-            nombreArchivo,
-            rutaArchivo
-        ]
+        [productoId, nombreArchivo, rutaArchivo]
     );
 
     return resultado.rows[0];
 };
-
 
 // Consultar comprobante de un producto
-const obtenerComprobantePorProducto = async (productoId) => {
-
+const obtenerComprobantePorProducto = async (
+    productoId,
+    usuarioId,
+    rol
+) => {
     const resultado = await pool.query(
-        `SELECT *
-         FROM comprobantes
-         WHERE producto_id = $1
-         ORDER BY id DESC
+        `SELECT c.*
+         FROM comprobantes c
+         INNER JOIN productos p ON c.producto_id = p.id
+         WHERE c.producto_id = $1
+         AND ($2 = 'administrador' OR p.usuario_id = $3)
+         ORDER BY c.id DESC
          LIMIT 1`,
-        [productoId]
+        [productoId, rol, usuarioId]
     );
 
     return resultado.rows[0];
 };
-
 
 module.exports = {
     crearComprobante,

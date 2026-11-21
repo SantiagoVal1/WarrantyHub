@@ -1,3 +1,4 @@
+
 const express = require('express');
 
 const router = express.Router();
@@ -8,15 +9,33 @@ const {
     editarProducto
 } = require('../controllers/productoController');
 
+const {
+    verificarToken,
+    verificarRol
+} = require('../middleware/authMiddleware');
 
-// Obtener todos los productos
-router.get('/', listarProductos);
+// Todas las rutas requieren autenticación
+router.use(verificarToken);
 
-// Registrar un producto
-router.post('/', registrarProducto);
+// Consultar productos
+router.get(
+    '/',
+    verificarRol('administrador', 'cliente'),
+    listarProductos
+);
 
-// Editar un producto
-router.put('/:id', editarProducto);
+// Registrar productos
+router.post(
+    '/',
+    verificarRol('administrador', 'cliente'),
+    registrarProducto
+);
 
+// Editar productos
+router.put(
+    '/:id',
+    verificarRol('administrador', 'cliente'),
+    editarProducto
+);
 
 module.exports = router;

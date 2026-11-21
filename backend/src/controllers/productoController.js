@@ -1,31 +1,32 @@
+
 const {
     obtenerProductos,
     crearProducto,
     actualizarProducto
 } = require('../services/productoService');
 
-
-// Obtener todos los productos
+// Consultar productos
 const listarProductos = async (req, res) => {
     try {
-        const productos = await obtenerProductos();
+        const productos = await obtenerProductos(
+            req.usuario.id,
+            req.usuario.rol
+        );
 
-        res.status(200).json(productos);
+        return res.status(200).json(productos);
 
     } catch (error) {
         console.error('Error al listar productos:', error);
 
-        res.status(500).json({
+        return res.status(500).json({
             mensaje: 'Error al obtener los productos'
         });
     }
 };
 
-
 // Registrar producto
 const registrarProducto = async (req, res) => {
     try {
-
         const {
             nombre,
             marca,
@@ -35,8 +36,6 @@ const registrarProducto = async (req, res) => {
             fechaFinGarantia
         } = req.body;
 
-
-        // Validar campos obligatorios
         if (
             !nombre ||
             !marca ||
@@ -50,35 +49,58 @@ const registrarProducto = async (req, res) => {
             });
         }
 
-
-        // Validar fechas
         const fechaInicio = new Date(fechaCompra);
         const fechaFin = new Date(fechaFinGarantia);
 
-        if (fechaFin < fechaInicio) {
+        if (
+            isNaN(fechaInicio.getTime()) ||
+            isNaN(fechaFin.getTime()) ||
+            fechaFin < fechaInicio
+        ) {
             return res.status(400).json({
-                mensaje: 'La fecha de fin de garantía no puede ser anterior a la fecha de compra'
+                mensaje: 'Las fechas no son válidas o la garantía termina antes de la compra'
             });
         }
 
+        // El administrador indica el cliente propietario.
+        // El cliente siempre queda asociado a su propia cuenta.
+        let propietarioId;
+
+        if (req.usuario.rol === 'administrador') {
+            propietarioId = req.body.usuarioId;
+
+            if (!Number.isInteger(Number(propietarioId)) ||
+                Number(propietarioId) <= 0) {
+                return res.status(400).json({
+                    mensaje: 'Debes indicar un ID de cliente válido'
+                });
+            }
+
+            propietarioId = Number(propietarioId);
+        } else {
+            propietarioId = req.usuario.id;
+        }
 
         const producto = await crearProducto(
-            nombre,
-            marca,
-            modelo,
-            numeroSerie,
+            nombre.trim(),
+            marca.trim(),
+            modelo.trim(),
+            numeroSerie.trim(),
             fechaCompra,
-            fechaFinGarantia
+            fechaFinGarantia,
+            propietarioId
         );
 
+        if (!producto) {
+            return res.status(404).json({
+                mensaje: 'El cliente indicado no existe o no es un cliente válido'
+            });
+        }
 
-        res.status(201).json(producto);
-
+        return res.status(201).json(producto);
 
     } catch (error) {
-
         console.error('Error al registrar producto:', error);
-
 
         if (error.code === '23505') {
             return res.status(409).json({
@@ -86,19 +108,22 @@ const registrarProducto = async (req, res) => {
             });
         }
 
-
-        res.status(500).json({
+        return res.status(500).json({
             mensaje: 'Error al registrar el producto'
         });
     }
 };
 
-
 // Editar producto
 const editarProducto = async (req, res) => {
     try {
-
         const { id } = req.params;
+
+        if (!/^[1-9]\d*$/.test(id)) {
+            return res.status(400).json({
+                mensaje: 'ID de producto no válido'
+            });
+        }
 
         const {
             nombre,
@@ -109,8 +134,6 @@ const editarProducto = async (req, res) => {
             fechaFinGarantia
         } = req.body;
 
-
-        // Validar campos obligatorios
         if (
             !nombre ||
             !marca ||
@@ -124,44 +147,41 @@ const editarProducto = async (req, res) => {
             });
         }
 
-
-        // Validar fechas
         const fechaInicio = new Date(fechaCompra);
         const fechaFin = new Date(fechaFinGarantia);
 
-        if (fechaFin < fechaInicio) {
+        if (
+            isNaN(fechaInicio.getTime()) ||
+            isNaN(fechaFin.getTime()) ||
+            fechaFin < fechaInicio
+        ) {
             return res.status(400).json({
-                mensaje: 'La fecha de fin de garantía no puede ser anterior a la fecha de compra'
+                mensaje: 'Las fechas no son válidas o la garantía termina antes de la compra'
             });
         }
-
 
         const producto = await actualizarProducto(
             id,
-            nombre,
-            marca,
-            modelo,
-            numeroSerie,
+            nombre.trim(),
+            marca.trim(),
+            modelo.trim(),
+            numeroSerie.trim(),
             fechaCompra,
-            fechaFinGarantia
+            fechaFinGarantia,
+            req.usuario.id,
+            req.usuario.rol
         );
 
-
-        // Verificar si existe
         if (!producto) {
             return res.status(404).json({
-                mensaje: 'Producto no encontrado'
+                mensaje: 'Producto no encontrado o no tienes permiso para modificarlo'
             });
         }
 
-
-        res.status(200).json(producto);
-
+        return res.status(200).json(producto);
 
     } catch (error) {
-
         console.error('Error al editar producto:', error);
-
 
         if (error.code === '23505') {
             return res.status(409).json({
@@ -169,15 +189,12 @@ const editarProducto = async (req, res) => {
             });
         }
 
-
-        res.status(500).json({
+        return res.status(500).json({
             mensaje: 'Error al editar el producto'
         });
     }
 };
 
-
-// Exportar funciones
 module.exports = {
     listarProductos,
     registrarProducto,

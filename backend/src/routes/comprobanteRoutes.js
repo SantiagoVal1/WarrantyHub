@@ -1,19 +1,33 @@
+
 const express = require('express');
+
+const router = express.Router();
 
 const {
     registrarComprobante,
     consultarComprobante
 } = require('../controllers/comprobanteController');
 
-const router = express.Router();
+const {
+    verificarToken,
+    verificarRol
+} = require('../middleware/authMiddleware');
 
+// Todas las rutas requieren autenticación
+router.use(verificarToken);
 
-// Registrar comprobante
-router.post('/', registrarComprobante);
+// Registrar comprobantes
+router.post(
+    '/',
+    verificarRol('administrador', 'cliente'),
+    registrarComprobante
+);
 
-
-// Consultar comprobante de un producto
-router.get('/:productoId', consultarComprobante);
-
+// Consultar comprobantes
+router.get(
+    '/:productoId',
+    verificarRol('administrador', 'cliente'),
+    consultarComprobante
+);
 
 module.exports = router;

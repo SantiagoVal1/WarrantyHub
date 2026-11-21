@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,26 +6,178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>WarrantyHub</title>
+    <title>WarrantyHub | Gestión de garantías</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+    <!-- ======================================== -->
+    <!-- ENCABEZADO -->
+    <!-- ======================================== -->
+
     <header>
         <h1>WarrantyHub</h1>
         <p>Sistema de gestión de garantías y reclamos</p>
+
+        <div id="informacionUsuario" style="display: none;">
+
+            <p id="nombreUsuarioActivo"></p>
+
+            <p id="rolUsuarioActivo"></p>
+
+            <button type="button" id="botonCerrarSesion">
+                Cerrar sesión
+            </button>
+
+        </div>
     </header>
 
 
-    <main class="contenedor">
+    <!-- ======================================== -->
+    <!-- AUTENTICACIÓN -->
+    <!-- ======================================== -->
+
+    <section id="seccionAutenticacion" class="contenedor">
+
+        <div class="formulario">
+
+            <h2 id="tituloAutenticacion">Iniciar sesión</h2>
+
+            <form id="formAutenticacion">
+
+                <div id="campoNombre" style="display: none;">
+
+                    <input
+                        type="text"
+                        id="nombreUsuario"
+                        placeholder="Nombre completo"
+                        autocomplete="name"
+                    >
+
+                </div>
+
+                <input
+                    type="email"
+                    id="correoUsuario"
+                    placeholder="Correo electrónico"
+                    autocomplete="email"
+                    required
+                >
+
+                <input
+                    type="password"
+                    id="passwordUsuario"
+                    placeholder="Contraseña"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button type="submit" id="botonAutenticacion">
+                    Iniciar sesión
+                </button>
+
+            </form>
+
+            <p id="mensajeAutenticacion"></p>
+
+            <button
+                type="button"
+                id="cambiarModoAutenticacion"
+            >
+                ¿No tienes cuenta? Regístrate
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======================================== -->
+    <!-- PANEL PRINCIPAL -->
+    <!-- ======================================== -->
+
+    <main
+        id="panelPrincipal"
+        class="contenedor"
+        style="display: none;"
+    >
 
         <!-- ======================================== -->
-        <!-- PRODUCTOS -->
+        <!-- ADMINISTRACIÓN DE AGENTES -->
+        <!-- SOLO ADMINISTRADOR -->
         <!-- ======================================== -->
 
-        <section class="formulario">
+        <section
+            id="seccionAgentes"
+            class="formulario"
+            style="display: none;"
+        >
+
+            <h2>Administración de agentes</h2>
+
+            <p>
+                Registra nuevos agentes para atender las reclamaciones
+                de los clientes.
+            </p>
+
+            <form id="formAgente">
+
+                <input
+                    type="text"
+                    id="nombreAgente"
+                    placeholder="Nombre completo del agente"
+                    required
+                >
+
+                <input
+                    type="email"
+                    id="correoAgente"
+                    placeholder="Correo electrónico"
+                    required
+                >
+
+                <input
+                    type="password"
+                    id="passwordAgente"
+                    placeholder="Contraseña del agente"
+                    minlength="8"
+                    required
+                >
+
+                <button type="submit" id="botonCrearAgente">
+                    Crear agente
+                </button>
+
+            </form>
+
+            <p id="mensajeAgente"></p>
+
+            <hr>
+
+            <h3>Agentes registrados</h3>
+
+            <button
+                type="button"
+                id="botonRecargarAgentes"
+            >
+                Actualizar lista
+            </button>
+
+            <div id="listaAgentes">
+                Cargando agentes...
+            </div>
+
+        </section>
+
+
+        <!-- ======================================== -->
+        <!-- REGISTRAR PRODUCTO -->
+        <!-- ADMINISTRADOR Y CLIENTE -->
+        <!-- ======================================== -->
+
+        <section class="formulario" id="seccionFormularioProducto">
 
             <h2 id="tituloFormulario">
                 Registrar producto
@@ -80,10 +233,7 @@
                     required
                 >
 
-                <button
-                    type="submit"
-                    id="botonFormulario"
-                >
+                <button type="submit" id="botonFormulario">
                     Guardar producto
                 </button>
 
@@ -108,11 +258,9 @@
         <!-- PRODUCTOS REGISTRADOS -->
         <!-- ======================================== -->
 
-        <section>
+        <section id="seccionListaProductos">
 
-            <h2>
-                Productos registrados
-            </h2>
+            <h2>Productos registrados</h2>
 
             <p id="totalProductos">
                 Total de productos: 0
@@ -130,13 +278,15 @@
 
         <!-- ======================================== -->
         <!-- COMPROBANTES -->
+        <!-- ADMINISTRADOR Y CLIENTE -->
         <!-- ======================================== -->
 
-        <section class="formulario">
+        <section
+            class="formulario"
+            id="seccionComprobantes"
+        >
 
-            <h2>
-                Comprobante de compra
-            </h2>
+            <h2>Comprobante de compra</h2>
 
             <form id="formComprobante">
 
@@ -144,15 +294,13 @@
                     Seleccionar producto
                 </label>
 
-                <select
-                    id="productoComprobante"
-                    required
-                >
+                <select id="productoComprobante" required>
+
                     <option value="">
                         Seleccione un producto
                     </option>
-                </select>
 
+                </select>
 
                 <input
                     type="text"
@@ -161,14 +309,12 @@
                     required
                 >
 
-
                 <input
                     type="text"
                     id="rutaArchivo"
                     placeholder="Ruta del comprobante"
                     required
                 >
-
 
                 <button type="submit">
                     Asociar comprobante
@@ -183,14 +329,16 @@
 
 
         <!-- ======================================== -->
-        <!-- TICKETS -->
+        <!-- CREAR TICKET -->
+        <!-- ADMINISTRADOR Y CLIENTE -->
         <!-- ======================================== -->
 
-        <section class="formulario">
+        <section
+            class="formulario"
+            id="seccionCrearTicket"
+        >
 
-            <h2>
-                Crear ticket de reclamo
-            </h2>
+            <h2>Crear ticket de reclamo</h2>
 
             <form id="formTicket">
 
@@ -198,22 +346,19 @@
                     Producto
                 </label>
 
-                <select
-                    id="productoTicket"
-                    required
-                >
+                <select id="productoTicket" required>
+
                     <option value="">
                         Seleccione un producto
                     </option>
-                </select>
 
+                </select>
 
                 <textarea
                     id="descripcionTicket"
                     placeholder="Descripción del problema"
                     required
                 ></textarea>
-
 
                 <button type="submit">
                     Crear ticket
@@ -229,13 +374,23 @@
 
         <!-- ======================================== -->
         <!-- TICKETS REGISTRADOS -->
+        <!-- LOS TRES ROLES -->
         <!-- ======================================== -->
 
-        <section>
+        <section id="seccionListaTickets">
 
-            <h2>
-                Tickets registrados
-            </h2>
+            <h2>Gestión de tickets</h2>
+
+            <p>
+                Consulta y gestiona las reclamaciones según tu rol.
+            </p>
+
+            <button
+                type="button"
+                id="botonRecargarTickets"
+            >
+                Actualizar tickets
+            </button>
 
             <div id="tickets">
                 Cargando tickets...
@@ -250,25 +405,15 @@
     <!-- MODAL -->
     <!-- ======================================== -->
 
-    <div
-        id="modal"
-        class="modal"
-    >
+    <div id="modal" class="modal">
 
         <div class="modal-contenido">
 
-            <h2 id="modalTitulo">
-                WarrantyHub
-            </h2>
+            <h2 id="modalTitulo">WarrantyHub</h2>
 
-            <p id="modalMensaje">
-                Mensaje
-            </p>
+            <p id="modalMensaje">Mensaje</p>
 
-            <button
-                id="modalBoton"
-                type="button"
-            >
+            <button id="modalBoton" type="button">
                 Aceptar
             </button>
 
@@ -276,6 +421,10 @@
 
     </div>
 
+
+    <!-- ======================================== -->
+    <!-- JAVASCRIPT -->
+    <!-- ======================================== -->
 
     <script src="app.js"></script>
 

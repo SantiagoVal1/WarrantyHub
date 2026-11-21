@@ -1,3 +1,23 @@
+
+/* ========================================
+   CONFIGURACIÓN GENERAL
+======================================== */
+
+:root {
+    --primario: #2563eb;
+    --primario-hover: #1d4ed8;
+    --secundario: #0f172a;
+    --fondo: #f1f5f9;
+    --superficie: #ffffff;
+    --texto: #1e293b;
+    --texto-secundario: #64748b;
+    --borde: #e2e8f0;
+    --exito: #16a34a;
+    --error: #dc2626;
+    --radio: 14px;
+    --sombra: 0 4px 15px rgba(15, 23, 42, 0.06);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,69 +26,86 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
-    color: #222;
-    line-height: 1.5;
+    background: var(--fondo);
+    color: var(--texto);
+    line-height: 1.6;
+    min-height: 100vh;
 }
 
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
 
 /* ========================================
    ENCABEZADO
 ======================================== */
 
 header {
-    background-color: #1f2937;
+    background: linear-gradient(135deg, #0f172a, #1e40af);
     color: white;
-    padding: 25px;
+    padding: 35px 20px;
     text-align: center;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);
 }
 
 header h1 {
     margin-bottom: 8px;
-    font-size: 30px;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -1px;
 }
 
 header p {
+    color: #cbd5e1;
     font-size: 15px;
 }
-
 
 /* ========================================
    CONTENEDOR
 ======================================== */
 
 .contenedor {
-    width: 90%;
-    max-width: 1100px;
-    margin: 30px auto;
+    width: 92%;
+    max-width: 1200px;
+    margin: 35px auto;
 }
 
 h2 {
+    color: var(--secundario);
+    font-size: 23px;
     margin-bottom: 20px;
-    color: #111827;
+    font-weight: 700;
+}
+
+h3 {
+    color: var(--secundario);
 }
 
 hr {
     margin: 35px 0;
     border: 0;
-    border-top: 1px solid #d1d5db;
+    border-top: 1px solid var(--borde);
 }
 
-
 /* ========================================
-   FORMULARIOS
+   FORMULARIOS Y SECCIONES
 ======================================== */
 
 .formulario {
-    background-color: white;
-    padding: 25px;
-    border-radius: 10px;
+    background: var(--superficie);
+    padding: 28px;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
     margin-bottom: 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--sombra);
 }
 
 .formulario h2 {
-    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--borde);
 }
 
 form {
@@ -76,96 +113,127 @@ form {
     gap: 15px;
 }
 
+label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    color: #334155;
+    margin-bottom: 5px;
+}
+
 input,
 select,
 textarea {
     width: 100%;
-    padding: 12px;
+    padding: 13px 14px;
     border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-family: Arial, sans-serif;
-    font-size: 15px;
-    background-color: white;
+    border-radius: 9px;
+    font-size: 14px;
+    color: var(--texto);
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #94a3b8;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
     outline: none;
-    border-color: #2563eb;
+    border-color: var(--primario);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 textarea {
-    min-height: 100px;
+    min-height: 110px;
     resize: vertical;
 }
-
-label {
-    font-weight: bold;
-    color: #374151;
-}
-
 
 /* ========================================
    BOTONES
 ======================================== */
 
 button {
-    padding: 12px;
+    padding: 12px 18px;
     border: none;
-    border-radius: 8px;
-    background-color: #2563eb;
+    border-radius: 9px;
+    background: var(--primario);
     color: white;
-    font-family: Arial, sans-serif;
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 button:hover {
-    background-color: #1d4ed8;
+    background: var(--primario-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.18);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .boton-cancelar {
-    background-color: #6b7280;
+    background: #64748b;
 }
 
 .boton-cancelar:hover {
-    background-color: #4b5563;
+    background: #475569;
 }
 
-
 /* ========================================
-   PRODUCTOS
+   LISTADOS Y TARJETAS
 ======================================== */
 
-#productos {
+#productos,
+#tickets,
+#listaAgentes {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
 }
 
 .producto {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    padding: 22px;
+    box-shadow: var(--sombra);
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-width: 0;
 }
 
 .producto:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 9px 22px rgba(15, 23, 42, 0.09);
 }
 
 .producto h3 {
-    margin-bottom: 12px;
-    color: #111827;
+    font-size: 18px;
+    margin-bottom: 13px;
+    overflow-wrap: anywhere;
 }
 
 .producto p {
-    margin-bottom: 8px;
+    color: var(--texto-secundario);
     font-size: 14px;
+    margin-bottom: 9px;
+    overflow-wrap: anywhere;
+}
+
+.producto strong {
+    color: var(--texto);
 }
 
 .producto button {
@@ -173,49 +241,66 @@ button:hover {
     width: 100%;
 }
 
-
 /* ========================================
-   GARANTÍA
+   GARANTÍAS
 ======================================== */
 
 .garantia-activa,
 .garantia-vencida {
-    margin-top: 12px;
-    padding: 8px;
-    border-radius: 6px;
+    margin-top: 14px;
+    padding: 9px 12px;
+    border-radius: 8px;
     text-align: center;
-    font-weight: bold;
+    font-size: 13px;
+    font-weight: 700;
 }
 
 .garantia-activa {
-    background-color: #dcfce7;
+    background: #dcfce7;
     color: #166534;
+    border: 1px solid #bbf7d0;
 }
 
 .garantia-vencida {
-    background-color: #fee2e2;
+    background: #fee2e2;
     color: #991b1b;
+    border: 1px solid #fecaca;
 }
-
 
 /* ========================================
    TICKETS
 ======================================== */
 
-#tickets {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-}
-
 #tickets .producto {
-    border-left: 4px solid #2563eb;
+    border-left: 4px solid var(--primario);
 }
 
 #tickets select {
     margin-top: 10px;
 }
 
+#tickets .select-agente,
+#tickets .select-estado {
+    margin-top: 12px;
+}
+
+#tickets .boton-asignar {
+    background: #0f766e;
+}
+
+#tickets .boton-asignar:hover {
+    background: #115e59;
+}
+
+/* ========================================
+   MENSAJES
+======================================== */
+
+#mensajeAgente {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
 
 /* ========================================
    MODAL
@@ -225,14 +310,14 @@ button:hover {
     display: none;
     position: fixed;
     z-index: 1000;
-    left: 0;
-    top: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.45);
-
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
     align-items: center;
     justify-content: center;
+    padding: 20px;
 }
 
 .modal.mostrar {
@@ -240,15 +325,13 @@ button:hover {
 }
 
 .modal-contenido {
-    background-color: white;
-    width: 90%;
-    max-width: 420px;
-    padding: 30px;
-    border-radius: 12px;
+    background: white;
+    width: 100%;
+    max-width: 430px;
+    padding: 32px;
+    border-radius: 16px;
     text-align: center;
-
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
     animation: aparecerModal 0.2s ease;
 }
 
@@ -258,55 +341,85 @@ button:hover {
 
 .modal-contenido p {
     margin-bottom: 25px;
-    color: #374151;
+    color: var(--texto-secundario);
 }
 
 .modal-contenido button {
     width: 100%;
 }
 
-
 @keyframes aparecerModal {
-
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(-12px) scale(0.98);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
-
 }
 
+/* ========================================
+   ACCESIBILIDAD
+======================================== */
+
+button:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.35);
+    outline-offset: 3px;
+}
 
 /* ========================================
    RESPONSIVE
 ======================================== */
 
-@media (max-width: 600px) {
-
+@media (max-width: 768px) {
     .contenedor {
         width: 94%;
-        margin: 20px auto;
+        margin: 22px auto;
     }
 
     header {
-        padding: 20px;
+        padding: 28px 15px;
     }
 
     header h1 {
-        font-size: 25px;
+        font-size: 28px;
     }
 
     .formulario {
         padding: 20px;
     }
 
-    #productos,
-    #tickets {
-        grid-template-columns: 1fr;
+    h2 {
+        font-size: 20px;
     }
 
+    #productos,
+    #tickets,
+    #listaAgentes {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 25px;
+    }
+
+    .formulario {
+        padding: 17px;
+    }
+
+    .producto {
+        padding: 18px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .modal-contenido {
+        padding: 24px;
+    }
 }
